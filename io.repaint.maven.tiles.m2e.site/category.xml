@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/io.repaint.maven.tiles.m2e.feature_1.0.0.qualifier.jar" id="io.repaint.maven.tiles.m2e.feature" version="1.0.0.qualifier">
+      <category name="io.repaint.maven.tiles.m2e"/>
+   </feature>
+   <category-def name="io.repaint.maven.tiles.m2e" label="m2e maven-tiles Support"/>
+</site>
