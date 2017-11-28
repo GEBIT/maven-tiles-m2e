@@ -7,5 +7,16 @@
             hint="TilesMavenLifecycleParticipant">
       </participant>
    </extension>
+   <extension
+         point="org.eclipse.m2e.core.projectConfigurators">
+      <configurator
+            class="io.repaint.maven.tiles.m2e.TilesProjectConfigurator"
+            id="io.repaint.maven.tiles.m2e.configurator"
+            name="TILES">
+      </configurator>
+   </extension>
+   <extension
+         point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
+   </extension>
 
 </plugin>
