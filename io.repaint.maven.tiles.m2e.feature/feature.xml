@@ -2,7 +2,7 @@
 <feature
       id="io.repaint.maven.tiles.m2e.feature"
       label="m2e maven-tiles Support"
-      version="1.1.0.qualifier">
+      version="1.2.0.qualifier">
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
                               Apache License
