@@ -7,6 +7,19 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.m2e.core,
  org.eclipse.m2e.maven.runtime,
  org.eclipse.ui,
+ org.eclipse.ui.ide,
  org.eclipse.core.resources,
- org.eclipse.core.runtime
-
+ org.eclipse.core.runtime,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.jface.text,
+ org.eclipse.wst.xml.ui,
+ org.eclipse.wst.sse.ui,
+ org.eclipse.wst.sse.core,
+ org.eclipse.wst.xml.core,
+ org.eclipse.wst.common.uriresolver,
+ org.eclipse.m2e.core,
+ org.eclipse.m2e.core.ui,
+ org.eclipse.m2e.editor,
+ org.eclipse.m2e.editor.xml,
+ org.eclipse.m2e.maven.runtime,
+ org.eclipse.core.filesystem

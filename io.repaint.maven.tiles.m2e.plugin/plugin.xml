@@ -18,5 +18,15 @@
    <extension
          point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
    </extension>
+   <extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            activate="true"
+            class="io.repaint.maven.tiles.m2e.TilesHyperlinkDetector"
+            id="io.repaint.maven.tiles.m2e.plugin.hyperlinkDetector"
+            name="Tiles"
+            targetId="org.eclipse.core.runtime.xml">
+      </hyperlinkDetector>
+   </extension>
 
 </plugin>
