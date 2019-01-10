@@ -28,9 +28,11 @@ import org.codehaus.plexus.interpolation.PrefixedObjectValueSource;
 import org.codehaus.plexus.interpolation.PropertiesBasedValueSource;
 import org.codehaus.plexus.interpolation.RegexBasedInterpolator;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.content.IContentType;
@@ -130,7 +132,22 @@ public class TilesHyperlinkDetector extends AbstractHyperlinkDetector {
 			return null;
 		}
 		if (current instanceof Element && "tile".equals(current.getNodeName())) { //$NON-NLS-1$
-			final MavenProject prj = XmlUtils.extractMavenProject(viewer);
+
+			MavenProject mp = XmlUtils.extractMavenProject(viewer);
+			if (mp == null) {
+				// try harder
+				IProject p = XmlUtils.extractProject(viewer);
+				if (p == null) {
+					return null;
+				}
+				IMavenProjectRegistry projectManager = MavenPlugin.getMavenProjectRegistry();
+				try {
+					mp = projectManager.getProject(p).getMavenProject(new NullProgressMonitor());
+				} catch (CoreException exc) {
+					return null;
+				}
+			}
+			final MavenProject prj = mp;
 			final Element tile = (Element) current;
 			IHyperlink tileHyperlink = new IHyperlink() {
 
@@ -170,7 +187,8 @@ public class TilesHyperlinkDetector extends AbstractHyperlinkDetector {
 							if (prj != null
 									&& gridString != null
 									&& artidString != null
-									&& (versionString == null || versionString.contains("${"))) { //$NON-NLS-1$
+									&& (versionString == null || versionString.contains("${")) //$NON-NLS-1$
+									|| versionString.contains("@")) { //$NON-NLS-1$
 								try {
 									versionString = extractVersion(prj, versionString, gridString, artidString);
 
@@ -366,14 +384,16 @@ public class TilesHyperlinkDetector extends AbstractHyperlinkDetector {
 	 * Interpolate a version string
 	 */
 	private static String simpleInterpolate(MavenProject project, String text) {
-		if (text != null && text.contains("${")) { //$NON-NLS-1$
+		if (text != null) { // $NON-NLS-1$
 			// when expression is in the version but no project instance around
 			// just give up.
 			if (project == null) {
 				return null;
 			}
 			Properties props = project.getProperties();
-			RegexBasedInterpolator inter = new RegexBasedInterpolator();
+
+			RegexBasedInterpolator inter =
+					(text.contains("${") ? new RegexBasedInterpolator() : new RegexBasedInterpolator("@(.+?)", "@"));
 			if (props != null) {
 				inter.addValueSource(new PropertiesBasedValueSource(props));
 			}
