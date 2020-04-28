@@ -302,7 +302,7 @@ public class TilesHyperlinkDetector extends AbstractHyperlinkDetector {
 		List<String> tokens = new ArrayList<>();
 		int inProperty = 0;
 		StringBuilder currentValue = new StringBuilder();
-		if (value.startsWith("!")) {
+		if (value.startsWith("!") || value.startsWith("?")) {
 			// ignore tile removal prefix
 			value = value.substring(1);
 		}
